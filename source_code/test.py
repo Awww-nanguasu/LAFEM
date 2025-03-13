@@ -336,22 +336,12 @@ print("高误差点的拟合值:",uh[maxidx])
 print("高误差点的真实值:",pde.solution(mesh.node)[maxidx])
 error1[maxidx] = 0
 
-axes = show_function(mesh,plt,uh3,cmap='jet')
-axes = show_function(mesh,plt,uh,cmap='jet')
-axes = show_function(mesh,plt,error1,cmap='jet')
+axes = show_function(mesh,plt,uh3.cpu().detach().numpy(),cmap='jet')
+axes = show_function(mesh,plt,uh.cpu().detach().numpy(),cmap='jet')
+axes = show_function(mesh,plt,error1.cpu().detach().numpy(),cmap='jet')
 
 plt.title(f"n={ns},Sample points on Uh")
 plt.show()
- 
-#输出uh的error最大值及其对应坐标
-
-maxidx = bm.where(bm.abs(error1)==bm.max(bm.abs(error1)))
-print("最大误差所在的网格节点:",maxidx)
-print("uh最大相对误差:",error1[maxidx])
-print("最大误差所在真实值: uh = ",uh[maxidx])
-print("最大误差所在拟合值: uh_hat =",uh3[maxidx])
-print("uh平均误差",bm.sum(bm.abs(error1))/error1.shape[0])
-print("L2",bm.sqrt(bm.sum(bm.abs(error1)**2))/bm.sqrt(bm.sum(pde.solution(mesh.node)**2)))
 
 import numpy as np
 import matplotlib.pyplot as plt
